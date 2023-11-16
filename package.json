@@ -7,13 +7,21 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git://github.com/baseballl1996/homebridge-nature-remo-switch.git"
+    "url": "git://github.com/ssasuki/homebridge-nature-remo-switch.git"
   },
   "bugs": {
-    "url": "https://github.com/baseballl1996/homebridge-nature-remo-switch/issues"
+    "url": "https://github.com/ssasuki/homebridge-nature-remo-switch/issues"
   },
   "keywords": [
-    "homebridge-plugin"
+    "homebridge-plugin",
+    "homebridge",
+    "apple",
+    "homekit",
+    "nature",
+    "remo",
+    "ilife",
+    "vacuum",
+    "cleaner"
   ],
   "engines": {
     "node": ">=10.17.0",
