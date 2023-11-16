@@ -1,0 +1,23 @@
+{
+  "name": "homebridge-nature-remo-switch",
+  "displayName": "Homebridge Nature Remo Switch",
+  "version": "1.0.0",
+  "description": "Homebridge Plugin to turn switches on and off using Nature Remo",
+  "author": "Sasuki Sho",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/baseballl1996/homebridge-nature-remo-switch.git"
+  },
+  "bugs": {
+    "url": "https://github.com/baseballl1996/homebridge-nature-remo-switch/issues"
+  },
+  "keywords": [
+    "homebridge-plugin"
+  ],
+  "engines": {
+    "node": ">=10.17.0",
+    "homebridge": ">=0.4.8"
+  },
+  "dependencies": {}
+}
