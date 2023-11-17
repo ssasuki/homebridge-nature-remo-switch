@@ -38,10 +38,12 @@ Switch.prototype.setPower = function(value, callback) {
   if (this.state.power != value) {
     this.state.power = value;
     this.log('Setting switch to ' + value);
+
+    // Send the appropriate command based on the value
+    let signalID = this.signal_ID_off;
+    let signalTimes = this.signal_ID_off_times;
     
-    const signalID = value ? this.signal_ID_on : this.signal_ID_off;
-    const signalTimes = value ? this.signal_ID_on_times : this.signal_ID_off_times;
-    
+    this.log('value: ' + value);
     for (let i = 0; i < signalTimes; i++) {
       this.cmdRequest(signalID, function(error, stdout, stderr) {
         if (error) {
@@ -49,12 +51,35 @@ Switch.prototype.setPower = function(value, callback) {
           callback(error);
         }
       }.bind(this));
-      sleep(3000);
-      this.log('wait for 3 sec');
+      
+      setTimeout(() => {
+      }, 10000);
+      this.log('wait');
     }
-    this.state.power = false;
+    
+    if (value) {
+      this.log('wait for 3 sec');
+      sleep(3000);
+      
+      signalID = this.signal_ID_on
+      signalTimes = signal_ID_on_times
+      for (let i = 0; i < signalTimes; i++) {
+        this.cmdRequest(signalID, function(error, stdout, stderr) {
+          if (error) {
+            this.log('Failed to set: ' + error);
+            callback(error);
+          }
+        }.bind(this));
+        
+        setTimeout(() => {
+        }, 10000);
+        this.log('wait');
+      }
+    }
+    
+  } else {
+    callback();
   }
-  callback();
 }
 
 Switch.prototype.cmdRequest = function(signalID, callback) {
