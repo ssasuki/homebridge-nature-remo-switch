@@ -53,12 +53,6 @@ Switch.prototype.sendSignal = function(signalID) {
 
 Switch.prototype.setPower = async function(value, callback) {
   try {
-    if (this.state.power === value) {
-      callback();
-      return;
-    }
-
-    this.state.power = value;
     this.log('Setting switch to ' + value);
 
     const signalID = value ? this.signal_ID_on : this.signal_ID_off;
@@ -70,8 +64,10 @@ Switch.prototype.setPower = async function(value, callback) {
       await delay(3000);
     }
 
-    // トグル用途ならOFFに戻す
-    this.state.power = false;
+    // トグル用途：必ず OFF 表示に戻す
+    this.switchService
+      .getCharacteristic(Characteristic.On)
+      .updateValue(false);
 
     callback();
   } catch (err) {

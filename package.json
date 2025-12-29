@@ -1,7 +1,7 @@
 {
   "name": "homebridge-nature-remo-switch",
   "displayName": "Homebridge Nature Remo Switch",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Homebridge Plugin to turn switches on and off using Nature Remo",
   "author": "Sasuki Sho",
   "license": "MIT",
