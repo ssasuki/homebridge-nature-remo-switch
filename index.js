@@ -34,28 +34,22 @@ Switch.prototype.getServices = function() {
   return [this.informationService, this.switchService];
 }
 
-Switch.prototype.setPower = function(value, callback) {
-  if (this.state.power != value) {
-    this.state.power = value;
-    this.log('Setting switch to ' + value);
-    
-    const signalID = value ? this.signal_ID_on : this.signal_ID_off;
-    const signalTimes = value ? this.signal_ID_on_times : this.signal_ID_off_times;
-    
-    for (let i = 0; i < signalTimes; i++) {
-      this.cmdRequest(signalID, function(error, stdout, stderr) {
-        if (error) {
-          this.log('Failed to set: ' + error);
-          callback(error);
-        }
-      }.bind(this));
-      sleep(3000);
-      this.log('wait for 3 sec');
-    }
-    this.state.power = false;
-  }
-  callback();
-}
+Switch.prototype.sendSignal = function(signalID) {
+  return new Promise((resolve, reject) => {
+    const cmd = 'curl -X POST ' +
+      '"https://api.nature.global/1/signals/' + signalID + '/send" ' +
+      '-H "accept: application/json" ' +
+      '-H "Authorization: Bearer ' + this.access_token + '"';
+
+    exec(cmd, (error, stdout, stderr) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(stdout);
+      }
+    });
+  });
+};
 
 Switch.prototype.setPower = async function(value, callback) {
   try {
