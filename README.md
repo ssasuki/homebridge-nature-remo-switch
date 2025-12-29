@@ -14,8 +14,8 @@ npm install -g homebridge-nature-remo-switch
       "access_token": "[Your access_token]",
       "signal_ID_on": "[aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa]",
       "signal_ID_off": "[bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb]",
-      "signal_ID_on_times": "[cccccccc-cccc-cccc-cccc-cccccccccccc]",
-      "signal_ID_off_times": "[dddddddd-dddd-dddd-dddd-dddddddddddd]",
+      "signal_ID_on_times": number,
+      "signal_ID_off_times": number,
       "accessory": "NatureRemoSwitch"
     }
   ]

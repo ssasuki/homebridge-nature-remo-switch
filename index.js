@@ -57,16 +57,35 @@ Switch.prototype.setPower = function(value, callback) {
   callback();
 }
 
-Switch.prototype.cmdRequest = function(signalID, callback) {
-  let cmd = 'curl -X POST ' +
-            '"https://api.nature.global/1/signals/' + signalID + '/send" ' +
-            '-H "accept":"application/json" ' +
-            '-k --header "Authorization":"Bearer ' + this.access_token + '"';
-  exec(cmd, function(error, stdout, stderr) { callback(error, stdout, stderr); });
-}
+Switch.prototype.setPower = async function(value, callback) {
+  try {
+    if (this.state.power === value) {
+      callback();
+      return;
+    }
 
-function sleep(waitMsec) {
-  var startMsec = new Date();
-  // 指定ミリ秒間だけループさせる（CPUは常にビジー状態）
-  while (new Date() - startMsec < waitMsec);
+    this.state.power = value;
+    this.log('Setting switch to ' + value);
+
+    const signalID = value ? this.signal_ID_on : this.signal_ID_off;
+    const signalTimes = value ? this.signal_ID_on_times : this.signal_ID_off_times;
+
+    for (let i = 0; i < signalTimes; i++) {
+      await this.sendSignal(signalID);
+      this.log(`Signal sent (${i + 1}/${signalTimes}), wait 3 sec`);
+      await delay(3000);
+    }
+
+    // トグル用途ならOFFに戻す
+    this.state.power = false;
+
+    callback();
+  } catch (err) {
+    this.log('Failed to set power: ' + err);
+    callback(err);
+  }
+};
+
+function delay(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
